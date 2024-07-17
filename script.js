@@ -4,17 +4,21 @@ function getComputerChoice() {
     let randomNumber = Math.floor((Math.random() * 3)) + 1;
 
     //return choices; rock for 1, paper for 2, scissors for 3
-    if (randomNumber == 1) return "rock"
-    else if (randomNumber == 2) return "paper"
-    else return "scissors"
+    if (randomNumber == 1) return "Rock"
+    else if (randomNumber == 2) return "Paper"
+    else return "Scissors"
 }
 
 // get human choice as rock or paper or scissors
 function getHumanChoice() {
     //get choice as string input
     let choice = prompt("What's your choice: Rock or Paper or Scissors?")
-    // return the choice by making lowercased
-    return choice.toLowerCase()
+    // return the choice by making lowercased and capitalized
+    let firstChar = choice.charAt(0)
+    firstChar = firstChar.toUpperCase()
+    choice = choice.toLowerCase().substring(1)
+    choice = firstChar + choice;
+    return choice
 }
 
 // initializes the score
@@ -22,23 +26,30 @@ let humanScore = 0
 let computerScore = 0
 
 function playRound(humanChoice, computerChoice) {
-    if (humanChoice == "rock" && computerChoice == "paper") computerScore++
-    else if (humanChoice == "rock" && computerChoice == "scissors") humanScore++
-    else if (humanChoice == "paper" && computerChoice == "rock") humanScore++
-    else if (humanChoice == "paper" && computerChoice == "scissors") computerScore++
-    else if (humanChoice == "scissors" && computerChoice == "rock") computerScore++
-    else if (humanChoice == "scissors" && computerChoice == "paper") humanScore++
-    alert(`You chose ${humanChoice} and Computer chose ${computerChoice} \n Score: Computer: ${computerScore}  You: ${humanScore}`)
+    // record the initial score for later showing results accordingly
+    let initialComputerScore = computerScore;
+    let initialHumanScore = humanScore;
+
+    // increment score according to choices
+    if (humanChoice == "Rock" && computerChoice == "Paper") computerScore++
+    if (humanChoice == "Rock" && computerChoice == "Scissors") humanScore++
+    if (humanChoice == "Paper" && computerChoice == "Rock") humanScore++
+    if (humanChoice == "Paper" && computerChoice == "Scissors") computerScore++
+    if (humanChoice == "Scissors" && computerChoice == "Rock") computerScore++
+    if (humanChoice == "Scissors" && computerChoice == "Paper") humanScore++
+
+    // show result of the round
+    if (computerScore > initialComputerScore) alert(`You Lose! ${computerChoice} beats ${humanChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
+    if (humanScore > initialHumanScore) alert(`You Won! ${humanChoice} beats ${computerChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
+    if (computerScore == initialHumanScore && humanScore == initialHumanScore) alert(`It's a Tie.\nScore: You: ${humanScore} Computer: ${computerScore}`)
 }
 for (let i = 0; i <= 4; i++) {
     const humanSelection = getHumanChoice()
     const computerSelection = getComputerChoice()
-
     playRound(humanSelection, computerSelection)
-    if (i == 4 && humanScore == computerScore) {
-        alert("It's a tie, so let's do a tie-breaker round:")
-        i--
-    }
+
+    //make a tie-breaker in case if tie by decreasing the value of i
+    if (i == 4 && humanScore == computerScore) i--
 }
 
 if (humanScore > computerScore) alert("You are the Winner")

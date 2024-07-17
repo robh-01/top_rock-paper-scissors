@@ -1,12 +1,14 @@
 // get computer choice as rock or paper or scissors
 function getComputerChoice() {
     // randomly generate 1 or 2 or 3
-    let randomNumber = Math.floor((Math.random() * 3)) + 1;
+    let randomNumber = Math.floor((Math.random() * 3))
 
     //return choices; rock for 1, paper for 2, scissors for 3
-    if (randomNumber == 1) return "Rock"
-    else if (randomNumber == 2) return "Paper"
-    else return "Scissors"
+    switch (randomNumber) {
+        case 0: return "Rock"
+        case 1: return "Paper"
+        case 2: return "Scissors"
+    }
 }
 
 // get human choice as rock or paper or scissors
@@ -21,9 +23,9 @@ function getHumanChoice() {
     return choice
 }
 
-// initializes the score
-let humanScore = 0
-let computerScore = 0
+    // initializes the score
+    let humanScore = 0
+    let computerScore = 0
 
 function playRound(humanChoice, computerChoice) {
     // record the initial score for later showing results accordingly
@@ -43,14 +45,20 @@ function playRound(humanChoice, computerChoice) {
     if (humanScore > initialHumanScore) alert(`You Won! ${humanChoice} beats ${computerChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
     if (computerScore == initialHumanScore && humanScore == initialHumanScore) alert(`It's a Tie.\nScore: You: ${humanScore} Computer: ${computerScore}`)
 }
-for (let i = 0; i <= 4; i++) {
-    const humanSelection = getHumanChoice()
-    const computerSelection = getComputerChoice()
-    playRound(humanSelection, computerSelection)
+function playGame() {
 
-    //make a tie-breaker in case if tie by decreasing the value of i
-    if (i == 4 && humanScore == computerScore) i--
+    for (let i = 0; i <= 4; i++) {
+        const humanSelection = getHumanChoice()
+        const computerSelection = getComputerChoice()
+        playRound(humanSelection, computerSelection)
+
+        //make a tie-breaker round in case if tie by decreasing the value of i
+        if (i == 4 && humanScore == computerScore) i--
+    }
+    if (humanScore > computerScore) alert("You are the Winner")
+    else if (computerScore > humanScore) alert("Computer is the Winner")
 }
 
-if (humanScore > computerScore) alert("You are the Winner")
-else if (computerScore > humanScore) alert("Computer is the Winner")
+playGame();
+
+

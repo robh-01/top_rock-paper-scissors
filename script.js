@@ -11,26 +11,22 @@ function getComputerChoice() {
     }
 }
 
-// get human choice as rock or paper or scissors
-function getHumanChoice() {
-    //get choice as string input
-    let choice = prompt("What's your choice: Rock or Paper or Scissors?")
-    // return the choice by making lowercased and capitalized
-    let firstChar = choice.charAt(0)
-    firstChar = firstChar.toUpperCase()
-    choice = choice.toLowerCase().substring(1)
-    choice = firstChar + choice;
-    return choice
-}
+// initializes the score
+let humanScore = 0
+let computerScore = 0
 
-    // initializes the score
-    let humanScore = 0
-    let computerScore = 0
+function playRound(e) {
+    // this is done to reset(in DOM) the score of both human and computer to 0 after a full game is played and another is started.
+    human.textContent = humanScore;
+    computer.textContent = computerScore;
 
-function playRound(humanChoice, computerChoice) {
-    // record the initial score for later showing results accordingly
+    //these variable had been used for later purposes to check who have won the round
     let initialComputerScore = computerScore;
     let initialHumanScore = humanScore;
+
+
+    let humanChoice = e.target.getAttribute('data-choice');
+    let computerChoice = getComputerChoice();
 
     // increment score according to choices
     if (humanChoice == "Rock" && computerChoice == "Paper") computerScore++
@@ -41,24 +37,42 @@ function playRound(humanChoice, computerChoice) {
     if (humanChoice == "Scissors" && computerChoice == "Paper") humanScore++
 
     // show result of the round
-    if (computerScore > initialComputerScore) alert(`You Lose! ${computerChoice} beats ${humanChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
-    else if (humanScore > initialHumanScore) alert(`You Won! ${humanChoice} beats ${computerChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
-    else if (computerScore == initialComputerScore && humanScore == initialHumanScore) alert(`It's a Tie.\nScore: You: ${humanScore} Computer: ${computerScore}`)
-}
-function playGame() {
-
-    for (let i = 0; i <= 4; i++) {
-        const humanSelection = getHumanChoice()
-        const computerSelection = getComputerChoice()
-        playRound(humanSelection, computerSelection)
-
-        //make a tie-breaker round in case if tie by decreasing the value of i
-        if (i == 4 && humanScore == computerScore) i--
+    if (computerScore > initialComputerScore) {
+        result.textContent = `Computer's ${computerChoice} defeated your ${humanChoice}.`;
     }
-    if (humanScore > computerScore) alert("You are the Winner")
-    else if (computerScore > humanScore) alert("Computer is the Winner")
+    else if (humanScore > initialHumanScore) {
+        result.textContent = `Your ${humanChoice} defeated Computer's ${computerChoice}.`;
+    }
+    else if (computerScore == initialComputerScore && humanScore == initialHumanScore) {
+        result.textContent = `It's a Tie. Both chose ${(humanChoice || computerChoice)}.`;
+    }
+
+    human.textContent = humanScore;
+    computer.textContent = computerScore;
+
+    if (humanScore == 5 || computerScore == 5) {
+        if (humanScore == 5) {
+            result.textContent = `You won the game. Click any option to Replay.`;
+        }
+        else if (computerScore == 5) {
+            result.textContent = `You lose the game. Click any option to Replay.`;
+        }
+        humanScore = 0;
+        computerScore = 0;
+
+    }
 }
 
-playGame();
+const human = document.querySelector('.humanScore span');
+const computer = document.querySelector('.computerScore span');
+const result = document.querySelector('.result');
+
+const rock = document.querySelector('.rock');
+const paper = document.querySelector('.paper');
+const scissors = document.querySelector('.scissors');
+
+rock.addEventListener('click', playRound);
+paper.addEventListener('click', playRound);
+scissors.addEventListener('click', playRound);
 
 

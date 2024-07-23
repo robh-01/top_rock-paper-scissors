@@ -42,8 +42,8 @@ function playRound(humanChoice, computerChoice) {
 
     // show result of the round
     if (computerScore > initialComputerScore) alert(`You Lose! ${computerChoice} beats ${humanChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
-    if (humanScore > initialHumanScore) alert(`You Won! ${humanChoice} beats ${computerChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
-    if (computerScore == initialHumanScore && humanScore == initialHumanScore) alert(`It's a Tie.\nScore: You: ${humanScore} Computer: ${computerScore}`)
+    else if (humanScore > initialHumanScore) alert(`You Won! ${humanChoice} beats ${computerChoice}.\nScore: You: ${humanScore} Computer: ${computerScore}`)
+    else if (computerScore == initialComputerScore && humanScore == initialHumanScore) alert(`It's a Tie.\nScore: You: ${humanScore} Computer: ${computerScore}`)
 }
 function playGame() {
 
